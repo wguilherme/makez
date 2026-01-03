@@ -9,6 +9,9 @@ SHELL := /bin/bash
 # Get makefile directory for includes
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
+# Shortcut for scripts folder
+SCRIPTS_DIR := $(MAKEFILE_DIR)scripts/
+
 # Auto-include all .mk files from makefiles/
 include $(wildcard $(MAKEFILE_DIR)makefiles/*.mk)
 

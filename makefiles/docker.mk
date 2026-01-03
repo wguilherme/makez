@@ -13,7 +13,7 @@ docker-stop-all: ## Stop all running containers
 	fi
 
 docker-clean: ## Remove stopped containers and dangling images
-	@$(MAKEFILE_DIR)scripts/docker-clean.sh
+	@$(SCRIPTS_DIR)docker-clean.sh
 
 docker-prune: ## Full cleanup (containers, images, volumes, networks)
 	@docker system prune -af --volumes

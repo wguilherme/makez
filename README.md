@@ -22,24 +22,30 @@ makez help
 
 ## 🔧 Create Your First Command
 
-Create a new file `makefiles/my-commands.mk`:
+Create `makefiles/my-commands.mk`:
 
 ```makefile
-.PHONY: hello db-backup
+.PHONY: greet greet-script
 
-hello: ## Say hello
+greet: ## Say hello (inline)
 	@echo "Hello from MakeZ!"
 
-db-backup: ## Backup database
-	@pg_dump mydb > ~/backups/mydb-$(shell date +%Y%m%d).sql
-	@echo "Backup done!"
+greet-script: ## Say hello (using script)
+	@$(SCRIPTS_DIR)greet.sh
 ```
 
-That's it! Now run from anywhere:
+Create `scripts/greet.sh`:
 
 ```bash
-makez hello
-makez db-backup
+#!/bin/bash
+echo "Hello from MakeZ script!"
+```
+
+Run from anywhere:
+
+```bash
+makez greet
+makez greet-script
 ```
 
 ## 📁 Structure

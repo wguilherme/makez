@@ -5,4 +5,4 @@ hello: ## Say hello (inline)
 	@echo "👋 Hello from MakeZ!"
 
 hello-script: ## Say hello (using script)
-	@$(MAKEFILE_DIR)scripts/example.sh
+	@$(SCRIPTS_DIR)example.sh
