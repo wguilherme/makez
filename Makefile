@@ -3,11 +3,11 @@
 
 SHELL := /bin/bash
 
+# Get makefile directory for includes (must be BEFORE any includes)
+MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
 # Load .env if exists
 -include .env
-
-# Get makefile directory for includes
-MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 # Shortcut for scripts folder
 SCRIPTS_DIR := $(MAKEFILE_DIR)scripts/
