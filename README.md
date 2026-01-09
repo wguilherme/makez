@@ -80,6 +80,39 @@ docker-ps          List containers
 
 See `makefiles/docker.mk` for a real example.
 
+## 🔌 Plugins
+
+Install command modules from remote repositories without committing them to your project:
+
+```bash
+# Install a plugin
+makez plugin-install URL=https://github.com/user/makez-plugin.git
+
+# List installed plugins
+makez plugin-list
+
+# Update a plugin
+makez plugin-update NAME=plugin-name
+
+# Remove a plugin
+makez plugin-remove NAME=plugin-name
+```
+
+**Create your own plugin:**
+
+Create a git repository with a `plugin.mk` file:
+
+```makefile
+PLUGIN_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+.PHONY: myplugin-hello
+
+myplugin-hello: ## Say hello from plugin
+    @echo "Hello from my plugin!"
+```
+
+Plugins are auto-loaded and appear in `makez help`. Perfect for sharing command sets across teams.
+
 ## 💡 Tips
 
 - **Use `## description`** after targets for auto-generated help
