@@ -7,7 +7,7 @@ docker-ps: ## List running containers with stats
 docker-stop-all: ## Stop all running containers
 	@if [ -n "$$(docker ps -q)" ]; then \
 		docker stop $$(docker ps -q); \
-		echo "✅ All containers stopped"; \
+		echo "All containers stopped"; \
 	else \
 		echo "No running containers"; \
 	fi
@@ -17,7 +17,7 @@ docker-clean: ## Remove stopped containers and dangling images
 
 docker-prune: ## Full cleanup (containers, images, volumes, networks)
 	@docker system prune -af --volumes
-	@echo "✅ Docker pruned"
+	@echo "Docker pruned"
 
 docker-stats: ## Show resource usage of running containers
 	@docker stats --no-stream --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"

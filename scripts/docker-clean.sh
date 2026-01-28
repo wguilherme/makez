@@ -1,7 +1,7 @@
 #!/bin/bash
 # Clean stopped containers and dangling images
 
-echo "🧹 Cleaning Docker..."
+echo "Cleaning Docker..."
 
 # Remove stopped containers
 stopped=$(docker ps -aq -f status=exited)
@@ -19,8 +19,8 @@ fi
 
 # Show space recovered
 echo ""
-echo "📊 Current disk usage:"
+echo "Current disk usage:"
 docker system df
 
 echo ""
-echo "✅ Cleanup complete!"
+echo "Cleanup complete!"

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Example script with simple animation
 
-text="👋 Hello from MakeZ!"
+text="Hello from MakeZ!"
 
 # Typing animation
 for ((i=0; i<${#text}; i++)); do

@@ -2,7 +2,7 @@
 .PHONY: hello hello-script separator
 
 hello: ## Say hello (inline)
-	@echo "👋 Hello from MakeZ!"
+	@echo "Hello from MakeZ!"
 
 hello-script: ## Say hello (using script)
 	@$(SCRIPTS_DIR)example.sh
