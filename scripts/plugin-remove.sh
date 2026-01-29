@@ -3,10 +3,8 @@ set -e
 
 NAME="$1"
 
-# Get script directory
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-MAKEZ_DIR="$(dirname "$SCRIPT_DIR")"
-PLUGINS_DIR="$MAKEZ_DIR/plugins"
+# Central plugin directory (like ASDF)
+PLUGINS_DIR="$HOME/.makez/plugins"
 REGISTRY="$PLUGINS_DIR/.registry"
 
 # Validate NAME

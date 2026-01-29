@@ -3,10 +3,8 @@ set -e
 
 NAME="$1"
 
-# Get script directory
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-MAKEZ_DIR="$(dirname "$SCRIPT_DIR")"
-PLUGINS_DIR="$MAKEZ_DIR/plugins"
+# Central plugin directory (like ASDF)
+PLUGINS_DIR="$HOME/.makez/plugins"
 REGISTRY="$PLUGINS_DIR/.registry"
 
 # Validate NAME
@@ -63,7 +61,6 @@ git log --oneline --no-decorate "$OLD_COMMIT..$NEW_COMMIT" | sed 's/^/  /'
 echo ""
 
 # Update registry
-cd "$MAKEZ_DIR"
 TEMP_REGISTRY="$REGISTRY.tmp"
 while IFS='|' read -r name url date commit; do
     if [ "$name" = "$NAME" ]; then
