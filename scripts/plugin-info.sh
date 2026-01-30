@@ -7,21 +7,10 @@ PLUGINS_DIR="$HOME/.makez/plugins"
 REGISTRY="$PLUGINS_DIR/.registry"
 
 # Validate NAME
-if [ -z "$NAME" ]; then
-    echo "Error: NAME is required"
-    echo "Usage: makez plugin-info NAME=<plugin-name>"
-    echo ""
-    echo "Run 'makez plugin-list' to see installed plugins"
-    exit 1
-fi
+[ -z "$NAME" ] && echo "Error: NAME required. Usage: makez plugin-info NAME=<plugin-name>" && exit 1
 
 # Check if plugin exists
-if ! grep -q "^${NAME}|" "$REGISTRY" 2>/dev/null; then
-    echo "Plugin '$NAME' is not installed"
-    echo ""
-    echo "Run 'makez plugin-list' to see installed plugins"
-    exit 1
-fi
+grep -q "^${NAME}|" "$REGISTRY" 2>/dev/null || { echo "Error: Plugin not installed"; exit 1; }
 
 PLUGIN_PATH="$PLUGINS_DIR/$NAME"
 
@@ -29,43 +18,19 @@ PLUGIN_PATH="$PLUGINS_DIR/$NAME"
 INFO=$(grep "^${NAME}|" "$REGISTRY")
 IFS='|' read -r _ url date commit <<< "$INFO"
 
-echo ""
-echo "Plugin: $NAME"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo ""
-echo "Details:"
+echo "$NAME"
 echo "  URL: $url"
-echo "  Installed: $date"
-echo "  Commit: $commit"
+echo "  Installed: $date | Commit: $commit"
 echo "  Path: $PLUGIN_PATH"
 echo ""
 
 # Show available commands
-echo "Available Commands:"
+echo "Commands:"
 PLUGIN_MK="$PLUGIN_PATH/plugin.mk"
-if [ -f "$PLUGIN_MK" ]; then
-    grep -E "^[a-zA-Z_-]+:.*?## " "$PLUGIN_MK" | sed 's/:.*##/  -/' || echo "  (no commands with descriptions found)"
-else
-    echo "  Warning: plugin.mk not found"
-fi
+[ -f "$PLUGIN_MK" ] && grep -E "^[a-zA-Z_-]+:.*?## " "$PLUGIN_MK" | sed 's/:.*##/  -/' || echo "  (none found)"
 echo ""
-
-# Show README if exists
-README="$PLUGIN_PATH/README.md"
-if [ -f "$README" ]; then
-    echo "README (first 15 lines):"
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    head -15 "$README" | sed 's/^/  /'
-    LINE_COUNT=$(wc -l < "$README")
-    if [ "$LINE_COUNT" -gt 15 ]; then
-        echo "  ... ($(($LINE_COUNT - 15)) more lines)"
-    fi
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo ""
-fi
 
 # Show recent commits
-echo "Recent Commits:"
+echo "Recent commits:"
 cd "$PLUGIN_PATH"
 git log --oneline --no-decorate -5 | sed 's/^/  /'
-echo ""

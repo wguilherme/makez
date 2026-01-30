@@ -8,50 +8,20 @@ PLUGINS_DIR="$HOME/.makez/plugins"
 REGISTRY="$PLUGINS_DIR/.registry"
 
 # Validate NAME
-if [ -z "$NAME" ]; then
-    echo "Error: NAME is required"
-    echo "Usage: makez plugin-remove NAME=<plugin-name>"
-    echo ""
-    echo "Run 'makez plugin-list' to see installed plugins"
-    exit 1
-fi
+[ -z "$NAME" ] && echo "Error: NAME required. Usage: makez plugin-remove NAME=<plugin-name>" && exit 1
 
 # Check if plugin exists
-if ! grep -q "^${NAME}|" "$REGISTRY" 2>/dev/null; then
-    echo "Plugin '$NAME' is not installed"
-    echo ""
-    echo "Run 'makez plugin-list' to see installed plugins"
-    exit 1
-fi
+grep -q "^${NAME}|" "$REGISTRY" 2>/dev/null || { echo "Error: Plugin not installed"; exit 1; }
 
 PLUGIN_PATH="$PLUGINS_DIR/$NAME"
 
-# Show what will be removed
-echo "Removing plugin '$NAME'..."
-echo ""
-
-# Get plugin info
-INFO=$(grep "^${NAME}|" "$REGISTRY")
-IFS='|' read -r _ url _ _ <<< "$INFO"
-echo "URL: $url"
-echo "Path: $PLUGIN_PATH"
-echo ""
-
 # Confirm deletion
-read -p "Are you sure? (y/N): " -n 1 -r
+read -p "Remove $NAME? (y/N): " -n 1 -r
 echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Cancelled"
-    exit 0
-fi
+[[ ! $REPLY =~ ^[Yy]$ ]] && echo "Cancelled" && exit 0
 
-# Remove plugin directory
-if [ -d "$PLUGIN_PATH" ]; then
-    rm -rf "$PLUGIN_PATH"
-fi
+# Remove plugin directory and registry entry
+[ -d "$PLUGIN_PATH" ] && rm -rf "$PLUGIN_PATH"
+grep -v "^${NAME}|" "$REGISTRY" > "$REGISTRY.tmp" && mv "$REGISTRY.tmp" "$REGISTRY"
 
-# Remove from registry
-grep -v "^${NAME}|" "$REGISTRY" > "$REGISTRY.tmp"
-mv "$REGISTRY.tmp" "$REGISTRY"
-
-echo "Plugin '$NAME' removed successfully!"
+echo "Removed successfully"
