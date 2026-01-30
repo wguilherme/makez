@@ -2,9 +2,6 @@
 CLAUDE.md
 .claude/
 
-# Plugins (installed via plugin-install)
-plugins/
-
 # Environment files
 .env
 .env.local

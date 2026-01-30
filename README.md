@@ -82,7 +82,7 @@ See `makefiles/docker.mk` for a real example.
 
 ## 🔌 Plugins
 
-Install command modules from remote repositories without committing them to your project:
+Install command modules from remote repositories, similar to ASDF's plugin system. Plugins are stored in `~/.makez/plugins/` and auto-loaded from anywhere:
 
 ```bash
 # Install a plugin
@@ -90,6 +90,9 @@ makez plugin-install URL=https://github.com/user/makez-plugin.git
 
 # List installed plugins
 makez plugin-list
+
+# Get plugin details
+makez plugin-info NAME=plugin-name
 
 # Update a plugin
 makez plugin-update NAME=plugin-name
@@ -100,11 +103,9 @@ makez plugin-remove NAME=plugin-name
 
 **Create your own plugin:**
 
-Create a git repository with a `plugin.mk` file:
+Use the [official template](https://github.com/wguilherme/makez-plugin-template) or create a git repository with a `plugin.mk` file:
 
 ```makefile
-PLUGIN_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-
 .PHONY: myplugin-hello
 
 myplugin-hello: ## Say hello from plugin

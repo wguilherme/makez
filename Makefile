@@ -15,8 +15,8 @@ SCRIPTS_DIR := $(MAKEFILE_DIR)scripts/
 # Auto-include all .mk files from makefiles/
 include $(wildcard $(MAKEFILE_DIR)makefiles/*.mk)
 
-# Auto-include all plugin.mk files from plugins/*/
-include $(wildcard $(MAKEFILE_DIR)plugins/*/plugin.mk)
+# Auto-include all plugin.mk files from central directory
+include $(wildcard ~/.makez/plugins/*/plugin.mk)
 
 .DEFAULT_GOAL := help
 
